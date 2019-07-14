@@ -3,58 +3,57 @@ import { connect } from "react-redux";
 import {
   change_input,
   submit_form,
-  get_users
+  get_users,
+  set_error_msg
 } from "../actionCreators/SignupAC";
 
 class Signup extends React.Component {
   //   const [error_msg, setError_msg] = useState("");
   handleSubmit(e) {
     e.preventDefault();
-    console.log(this.props);
+
     setTimeout(() => {
-      //   setError_msg("");
+      this.props.dispatch(set_error_msg(""));
     }, 3000);
 
     // const reg = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
     const reg = /.+@.+\.[A-Za-z]+$/;
     if (this.props.firstName === "") {
-      //   setError_msg("First Name is Required");
+      this.props.dispatch(set_error_msg("First Name is Required"));
       //If name is empty
       return "false";
     }
     if (this.props.lastName === "") {
-      //   setError_msg("Last Name is Required");
-      //If name is empty
+      this.props.dispatch(set_error_msg("Last Name is Required"));
       return "false";
     }
     if (!reg.test(this.props.email)) {
-      //   setError_msg("Not a Valid Email");
+      this.props.dispatch(set_error_msg("Not a Valid Email"));
       return false;
     }
     if (this.props.password === "") {
-      //   setError_msg("Password is Required");
+      this.props.dispatch(set_error_msg("Password is Required"));
+
       return false;
     }
     if (this.props.confirmpassword === "") {
-      //   setError_msg("Wrong Confirm Passord");
+      this.props.dispatch(set_error_msg("Wrong Confirm Passord"));
       return false;
     }
     if (this.props.password !== this.props.confirmpassword) {
-      //   setError_msg("Wrong Confirm Passord");
+      this.props.dispatch(set_error_msg("Wrong Confirm Passord"));
       return false;
     }
     this.props.dispatch(get_users());
-    console.log(this.props);
+    // console.log(this.props);
     setTimeout(() => {
-      console.log(this.props);
-      console.log(this.props.users);
-      const [user_email] = this.props.users.filter(
+      // console.log(this.props);
+      // console.log(this.props.users);
+      const [user] = this.props.users.filter(
         user => user.email === this.props.email
       );
-      console.log("USER", user_email);
-      if (user_email !== undefined) {
-        console.log("Hiiiiiiiiiiiiiiiii", user_email.email);
-        if (this.props.email === user_email.email) {
+      if (user !== undefined) {
+        if (this.props.email === user.email) {
           alert("Email already exists please signin");
           return false;
         }
@@ -75,7 +74,9 @@ class Signup extends React.Component {
               this.props.dispatch(change_input("firstName", e.target.value));
             }}
           />
-          {/* {error_msg === "First Name is Required" && <p>--{error_msg}</p>} */}
+          {this.props.error_msg === "First Name is Required" && (
+            <p>--{this.props.error_msg}</p>
+          )}
           <br />
           <label>Last Name:</label>
           <input
@@ -85,7 +86,9 @@ class Signup extends React.Component {
               this.props.dispatch(change_input("lastName", e.target.value));
             }}
           />
-          {/* {error_msg === "Last Name is Required" && <p>--{error_msg}</p>} */}
+          {this.props.error_msg === "Last Name is Required" && (
+            <p>--{this.props.error_msg}</p>
+          )}
           <br />
           <label>Email:</label>
           <input
@@ -96,7 +99,9 @@ class Signup extends React.Component {
             }}
           />
 
-          {/* {error_msg === "Not a Valid Email" && <p>--{error_msg}</p>} */}
+          {this.props.error_msg === "Not a Valid Email" && (
+            <p>--{this.props.error_msg}</p>
+          )}
 
           <br />
           <label>Password:</label>
@@ -107,7 +112,9 @@ class Signup extends React.Component {
               this.props.dispatch(change_input("password", e.target.value));
             }}
           />
-          {/* {error_msg === "Password is Required" && <p>--{error_msg}</p>} */}
+          {this.props.error_msg === "Password is Required" && (
+            <p>--{this.props.error_msg}</p>
+          )}
           <br />
           <label>Confirm Password:</label>
           <input
@@ -119,7 +126,9 @@ class Signup extends React.Component {
               );
             }}
           />
-          {/* {error_msg === "Wrong Confirm Passord" && <p>--{error_msg}</p>} */}
+          {this.props.error_msg === "Wrong Confirm Passord" && (
+            <p>--{this.props.error_msg}</p>
+          )}
           <br />
           <input type="submit" value="SUBMIT" />
         </form>
@@ -129,6 +138,7 @@ class Signup extends React.Component {
 }
 function mapStateToProps(state) {
   return {
+    error_msg: state.errorMessage,
     loading: state.isLoading,
     firstName: state.firstName,
     lastName: state.lastName,

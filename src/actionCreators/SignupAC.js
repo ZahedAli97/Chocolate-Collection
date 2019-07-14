@@ -6,7 +6,10 @@ import {
   GET_USERS,
   GET_USERS_FAILURE,
   GET_USERS_SUCCESS,
-  SET_ERROR_MESSAGE
+  SET_ERROR_MESSAGE,
+  LOGIN_FORM,
+  LOGIN_FORM_SUCCESS,
+  LOGIN_FORM_FAILURE
 } from "../actionTypes/SignupAT";
 
 export function change_input(fieldName, fieldValue) {
@@ -38,4 +41,16 @@ export function get_users_success(users) {
 
 export function get_users_failure(error) {
   return { type: GET_USERS_FAILURE, error };
+}
+
+export function submit_login_form(user) {
+  return { type: LOGIN_FORM, user };
+}
+
+export function submit_login_form_success(chocolates, types, brands) {
+  return { type: LOGIN_FORM_SUCCESS, chocolates, types, brands };
+}
+
+export function submit_login_form_failure(error) {
+  return { type: LOGIN_FORM_FAILURE, error };
 }
