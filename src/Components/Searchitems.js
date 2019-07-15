@@ -3,6 +3,9 @@ import { connect } from "react-redux";
 import Brandsitems from "./Brandsitems";
 import Chocolateitems from "./Chocolateitems";
 import { Redirect } from "react-router-dom";
+import Toast from "react-bootstrap/Toast";
+import CardDeck from "react-bootstrap/CardDeck";
+import Card from "react-bootstrap/Card";
 
 class Searchitems extends Component {
   render() {
@@ -20,17 +23,48 @@ class Searchitems extends Component {
 
     return (
       <>
-        <h1>Search Items- {this.props.searchWord}</h1>
-        <h3>-----Chocolates-----</h3>
-        {chocolates !== [] &&
-          chocolates.map(chocolate => (
-            <Chocolateitems key={chocolate.id} {...chocolate} />
-          ))}
-        {chocolates[0] === undefined && <p>No Matches</p>}
-        <h3>-----Brands-----</h3>
-        {brands[0] === undefined && <p>No Matches</p>}
-        {brands !== [] &&
-          brands.map(brand => <Brandsitems key={brand.id} {...brand} />)}
+        <div style={{ marginLeft: "30rem" }}>
+          <br />
+          <Toast>
+            <Toast.Header closeButton={false}>
+              <strong className="mr-auto">Search:</strong>{" "}
+              <Toast.Body>{this.props.searchWord}</Toast.Body>{" "}
+            </Toast.Header>
+          </Toast>
+        </div>
+        <br />
+        <div>
+          <Card
+            border="warning"
+            className="bg-warning text-white text-center shadow"
+          >
+            <Card.Body style={{ fontSize: "22px" }}>CHOCOLATES</Card.Body>
+
+            {chocolates[0] === undefined && (
+              <Card.Footer>No Matches</Card.Footer>
+            )}
+          </Card>
+          <br />
+          <CardDeck style={{ marginLeft: "1rem" }}>
+            {chocolates !== [] &&
+              chocolates.map(chocolate => (
+                <Chocolateitems key={chocolate.id} {...chocolate} />
+              ))}
+          </CardDeck>
+          <br />
+          <Card
+            border="warning"
+            className="bg-warning text-white text-center shadow"
+          >
+            <Card.Body style={{ fontSize: "22px" }}>BRANDS</Card.Body>
+            {brands[0] === undefined && <Card.Footer>No Matches</Card.Footer>}
+          </Card>
+          <br />
+          <CardDeck style={{ marginLeft: "1rem" }}>
+            {brands !== [] &&
+              brands.map(brand => <Brandsitems key={brand.id} {...brand} />)}
+          </CardDeck>
+        </div>
       </>
     );
   }

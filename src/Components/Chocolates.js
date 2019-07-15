@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Chocolateitems from "./Chocolateitems";
 import { Redirect } from "react-router-dom";
+import CardDeck from "react-bootstrap/CardDeck";
+import Container from "react-bootstrap/Container";
 
 class Chocolates extends Component {
   render() {
@@ -10,9 +12,17 @@ class Chocolates extends Component {
     }
     return (
       <>
-        {this.props.chocolates.map(chocolate => (
-          <Chocolateitems key={chocolate.id} {...chocolate} />
-        ))}
+        <br />
+        <div className="container" style={{ paddingLeft: "10rem" }}>
+          <CardDeck>
+            {this.props.chocolates.map(chocolate => (
+              <Chocolateitems key={chocolate.id} {...chocolate} />
+            ))}
+          </CardDeck>
+        </div>
+        <br />
+        <br />
+        <br />
       </>
     );
   }

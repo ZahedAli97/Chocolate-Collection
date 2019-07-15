@@ -12,6 +12,7 @@ import Chocolates from "./Components/Chocolates";
 import Chocolatedetails from "./Components/Chocolatedetails";
 import Searchitems from "./Components/Searchitems";
 import { Navbar as BootstrapNavbar } from "react-bootstrap";
+
 function App() {
   return (
     <>
@@ -32,23 +33,45 @@ function App() {
       />
       <Route exact path="/search" component={Searchitems} />
       <Route path="/signup" component={Signup} />
-      <BootstrapNavbar fixed="bottom" bg="dark" variant="dark" expand="lg">
-        <Reusable
-          props={{
-            message: "Chocopedia - A Cholcolate Collection App",
-            tag: 18.72,
-            class: "text-warning"
+      <br />
+      <br />
+      <br />
+      <div>
+        {/* <hr
+          style={{
+            marginTop: "385px",
+            width: "85%",
+            border: "0.02rem solid #ffbb33",
+            borderRadius: "5px"
           }}
-        />
-        <hr />
-        <Reusable
-          props={{
-            message: "An App by Ali",
-            tag: 15,
-            class: "pull-right text-warning"
+        /> */}
+        <BootstrapNavbar
+          fixed="bottom"
+          bg="white"
+          variant="dark"
+          expand="lg"
+          className="shadow-top"
+          style={{
+            boxShadow: "0 0 5px  #d8d2c7"
           }}
-        />
-      </BootstrapNavbar>
+        >
+          <Reusable
+            props={{
+              message: "Chocopedia - A Cholcolate Collection App",
+              tag: 18.72,
+              class: "text-warning"
+            }}
+          />
+          <hr />
+          <Reusable
+            props={{
+              message: "An App by Ali",
+              tag: 15,
+              class: "pull-right text-warning"
+            }}
+          />
+        </BootstrapNavbar>
+      </div>
     </>
   );
 }

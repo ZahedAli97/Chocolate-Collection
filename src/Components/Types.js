@@ -1,15 +1,30 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import Card from "react-bootstrap/Card";
+import Container from "react-bootstrap/Container";
+import { ListGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 class Types extends Component {
   render() {
     return (
       <>
-        <ul>
-          {this.props.types.map(type => (
-            <li key={type.id}>{type.name}</li>
-          ))}
-        </ul>
+        <Card style={{ width: "18rem" }} className="shadow">
+          {" "}
+          <Card.Header className="text-center">Types of Chocolates</Card.Header>
+          <ListGroup variant="flush">
+            {this.props.types.map(type => (
+              <>
+                <ListGroup.Item className="text-center text-dark" key={type.id}>
+                  {type.name}
+                </ListGroup.Item>
+                {/* <div className="bg-warning list-group-item list-group-item-action active">
+                  <Link to="/" />
+                </div> */}
+              </>
+            ))}
+          </ListGroup>
+        </Card>
       </>
     );
   }

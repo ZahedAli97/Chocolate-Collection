@@ -10,6 +10,7 @@ import {
   FormControl,
   Button
 } from "react-bootstrap";
+import logo from "../redchoco.png";
 
 import Home from "./Home";
 
@@ -17,10 +18,16 @@ class ownNavbar extends React.Component {
   render() {
     return (
       <>
-        <Navbar bg="dark" variant="dark" expand="lg">
+        <Navbar bg="white" variant="dark" expand="lg" className="shadow-sm">
           <Navbar.Brand>
             <NavLink to="/" className="text-warning">
-              CHOCOPEDIA
+              <img
+                src={logo}
+                className="App-logo text-center "
+                alt="logo"
+                style={{ width: "2.5rem", height: "2.5rem" }}
+              />
+              {"    CHOCOPEDIA"}
             </NavLink>
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -60,6 +67,21 @@ class ownNavbar extends React.Component {
               <NavLink to="/search">
                 <Button variant="outline-warning">Search</Button>
               </NavLink>
+              <div style={{ marginLeft: "0.3rem" }} />
+              {this.props.isLoggedIn && (
+                <>
+                  <NavLink to="/">
+                    <Button
+                      variant="outline-warning"
+                      onClick={e => {
+                        this.props.dispatch(change_input("isLoggedIn", false));
+                      }}
+                    >
+                      Log Out
+                    </Button>
+                  </NavLink>
+                </>
+              )}
             </Form>
           </Navbar.Collapse>
         </Navbar>
@@ -70,6 +92,7 @@ class ownNavbar extends React.Component {
 
 function mapStateToProps(state) {
   return {
+    isLoggedIn: state.isLoggedIn,
     searchWord: state.searchWord
   };
 }
