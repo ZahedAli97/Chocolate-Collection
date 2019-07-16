@@ -9,10 +9,12 @@ import {
   GET_USERS_FAILURE,
   SET_ERROR_MESSAGE,
   LOGIN_FORM,
-  LOGIN_FORM_SUCCESS
+  LOGIN_FORM_SUCCESS,
+  LOGOUT
 } from "../actionTypes/SignupAT";
 
 const initialState = {
+  isLoading: false,
   isLoggedIn: false,
   searchWord: "",
   loginEmail: "", //For log in
@@ -61,13 +63,33 @@ export default function SignupReducer(prevState = initialState, action) {
         console.log(action.error);
         break;
       case LOGIN_FORM:
+        draft.isLoading = true;
         draft.isLoggedIn = true;
         draft.currentUser = action.user;
         break;
       case LOGIN_FORM_SUCCESS:
+        draft.isLoading = false;
         draft.chocolates = action.chocolates;
         draft.types = action.types;
         draft.brands = action.brands;
+        break;
+      case LOGOUT:
+        draft.isLoading = true;
+        draft.isLoggedIn = false;
+        draft.searchWord = "";
+        draft.loginEmail = ""; //For log in
+        draft.loginPassword = "";
+        draft.errorMessage = "";
+        draft.firstName = "";
+        draft.lastName = "";
+        draft.email = ""; // For sign up
+        draft.password = "";
+        draft.confirmpassword = "";
+        draft.currentUser = {};
+        draft.users = [];
+        draft.chocolates = [];
+        draft.types = [];
+        draft.brands = [];
         break;
     }
   });

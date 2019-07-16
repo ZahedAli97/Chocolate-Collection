@@ -9,7 +9,8 @@ import {
   SET_ERROR_MESSAGE,
   LOGIN_FORM,
   LOGIN_FORM_SUCCESS,
-  LOGIN_FORM_FAILURE
+  LOGIN_FORM_FAILURE,
+  LOGOUT
 } from "../actionTypes/SignupAT";
 
 export function change_input(fieldName, fieldValue) {
@@ -53,4 +54,8 @@ export function submit_login_form_success(chocolates, types, brands) {
 
 export function submit_login_form_failure(error) {
   return { type: LOGIN_FORM_FAILURE, error };
+}
+
+export function logout() {
+  return { type: LOGOUT };
 }

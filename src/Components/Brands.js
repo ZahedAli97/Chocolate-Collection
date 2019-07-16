@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import CardGroup from "react-bootstrap/CardGroup";
 import CardDeck from "react-bootstrap/CardDeck";
 import Container from "react-bootstrap/Container";
+import Spinner from "react-bootstrap/Spinner";
 
 class Brands extends Component {
   render() {
@@ -14,6 +15,18 @@ class Brands extends Component {
     return (
       <>
         <br />
+        {this.props.isLoading && (
+          <Spinner
+            animation="border"
+            variant="warning"
+            style={{
+              width: "5rem",
+              height: "5rem",
+              marginLeft: "40rem",
+              marginTop: "10rem"
+            }}
+          />
+        )}
         <div className="container" style={{ marginLeft: "10rem" }}>
           <CardDeck className="ml-5">
             {this.props.brands.map(brand => (
@@ -31,6 +44,7 @@ class Brands extends Component {
 
 function mapStateToProps(state) {
   return {
+    isLoading: state.isLoading,
     isLoggedIn: state.isLoggedIn,
     brands: state.brands
   };

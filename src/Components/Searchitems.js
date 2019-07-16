@@ -6,6 +6,7 @@ import { Redirect } from "react-router-dom";
 import Toast from "react-bootstrap/Toast";
 import CardDeck from "react-bootstrap/CardDeck";
 import Card from "react-bootstrap/Card";
+import Spinner from "react-bootstrap/Spinner";
 
 class Searchitems extends Component {
   render() {
@@ -33,38 +34,52 @@ class Searchitems extends Component {
           </Toast>
         </div>
         <br />
-        <div>
-          <Card
-            border="warning"
-            className="bg-warning text-white text-center shadow"
-          >
-            <Card.Body style={{ fontSize: "22px" }}>CHOCOLATES</Card.Body>
+        {this.props.isLoading && (
+          <Spinner
+            animation="border"
+            variant="warning"
+            style={{
+              width: "5rem",
+              height: "5rem",
+              marginLeft: "40rem",
+              marginTop: "10rem"
+            }}
+          />
+        )}
+        {!this.props.isLoading && (
+          <div>
+            <Card
+              border="warning"
+              className="bg-warning text-white text-center shadow"
+            >
+              <Card.Body style={{ fontSize: "22px" }}>CHOCOLATES</Card.Body>
 
-            {chocolates[0] === undefined && (
-              <Card.Footer>No Matches</Card.Footer>
-            )}
-          </Card>
-          <br />
-          <CardDeck style={{ marginLeft: "1rem" }}>
-            {chocolates !== [] &&
-              chocolates.map(chocolate => (
-                <Chocolateitems key={chocolate.id} {...chocolate} />
-              ))}
-          </CardDeck>
-          <br />
-          <Card
-            border="warning"
-            className="bg-warning text-white text-center shadow"
-          >
-            <Card.Body style={{ fontSize: "22px" }}>BRANDS</Card.Body>
-            {brands[0] === undefined && <Card.Footer>No Matches</Card.Footer>}
-          </Card>
-          <br />
-          <CardDeck style={{ marginLeft: "1rem" }}>
-            {brands !== [] &&
-              brands.map(brand => <Brandsitems key={brand.id} {...brand} />)}
-          </CardDeck>
-        </div>
+              {chocolates[0] === undefined && (
+                <Card.Footer>No Matches</Card.Footer>
+              )}
+            </Card>
+            <br />
+            <CardDeck style={{ marginLeft: "1rem" }}>
+              {chocolates !== [] &&
+                chocolates.map(chocolate => (
+                  <Chocolateitems key={chocolate.id} {...chocolate} />
+                ))}
+            </CardDeck>
+            <br />
+            <Card
+              border="warning"
+              className="bg-warning text-white text-center shadow"
+            >
+              <Card.Body style={{ fontSize: "22px" }}>BRANDS</Card.Body>
+              {brands[0] === undefined && <Card.Footer>No Matches</Card.Footer>}
+            </Card>
+            <br />
+            <CardDeck style={{ marginLeft: "1rem" }}>
+              {brands !== [] &&
+                brands.map(brand => <Brandsitems key={brand.id} {...brand} />)}
+            </CardDeck>
+          </div>
+        )}
       </>
     );
   }
@@ -72,6 +87,7 @@ class Searchitems extends Component {
 
 function mapStateToProps(state) {
   return {
+    isLoading: state.isLoading,
     isLoggedIn: state.isLoggedIn,
     brands: state.brands,
     chocolates: state.chocolates,

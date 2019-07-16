@@ -13,3 +13,5 @@ export const GET_USERS_FAILURE = "GET_USERS_FAILURE";
 export const LOGIN_FORM = "LOGIN_FORM";
 export const LOGIN_FORM_SUCCESS = "LOGIN_FORM_SUCCESS";
 export const LOGIN_FORM_FAILURE = "LOGIN_FORM_FAILURE";
+
+export const LOGOUT = "LOGOUT";

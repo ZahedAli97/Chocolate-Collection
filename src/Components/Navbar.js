@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
-import { change_input } from "../actionCreators/SignupAC";
+import { change_input, logout, get_users } from "../actionCreators/SignupAC";
 import {
   Navbar,
   Nav,
@@ -74,7 +74,8 @@ class ownNavbar extends React.Component {
                     <Button
                       variant="outline-warning"
                       onClick={e => {
-                        this.props.dispatch(change_input("isLoggedIn", false));
+                        this.props.dispatch(logout());
+                        this.props.dispatch(get_users());
                       }}
                     >
                       Log Out

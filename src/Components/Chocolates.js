@@ -4,6 +4,7 @@ import Chocolateitems from "./Chocolateitems";
 import { Redirect } from "react-router-dom";
 import CardDeck from "react-bootstrap/CardDeck";
 import Container from "react-bootstrap/Container";
+import Spinner from "react-bootstrap/Spinner";
 
 class Chocolates extends Component {
   render() {
@@ -12,7 +13,19 @@ class Chocolates extends Component {
     }
     return (
       <>
-        <br />
+        <br />{" "}
+        {this.props.isLoading && (
+          <Spinner
+            animation="border"
+            variant="warning"
+            style={{
+              width: "5rem",
+              height: "5rem",
+              marginLeft: "40rem",
+              marginTop: "10rem"
+            }}
+          />
+        )}
         <div className="container" style={{ paddingLeft: "10rem" }}>
           <CardDeck>
             {this.props.chocolates.map(chocolate => (
@@ -30,6 +43,7 @@ class Chocolates extends Component {
 
 function mapStateToProps(state) {
   return {
+    isLoading: state.isLoading,
     isLoggedIn: state.isLoggedIn,
     chocolates: state.chocolates
   };

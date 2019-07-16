@@ -10,6 +10,7 @@ import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 
 class Signup extends React.Component {
@@ -65,7 +66,7 @@ class Signup extends React.Component {
       this.props.dispatch(set_error_msg("Wrong Confirm Passord"));
       return false;
     }
-
+    this.props.history.push("/");
     return this.props.dispatch(submit_form(this.props));
   }
   render() {
@@ -178,9 +179,21 @@ class Signup extends React.Component {
                 </Form.Group>
 
                 <div className="text-center">
-                  <Button variant="warning" type="submit">
-                    Sign Up
-                  </Button>{" "}
+                  {this.props.isLoading && (
+                    <Spinner
+                      animation="border"
+                      variant="warning"
+                      style={{
+                        width: "3rem",
+                        height: "3rem"
+                      }}
+                    />
+                  )}
+                  {!this.props.isLoading && (
+                    <Button variant="warning" type="submit">
+                      Sign Up
+                    </Button>
+                  )}{" "}
                 </div>
               </form>
             </Form>{" "}
@@ -194,6 +207,7 @@ class Signup extends React.Component {
 }
 function mapStateToProps(state) {
   return {
+    isLoading: state.isLoading,
     error_msg: state.errorMessage,
     loading: state.isLoading,
     firstName: state.firstName,
