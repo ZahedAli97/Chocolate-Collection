@@ -14,6 +14,9 @@ import Alert from "react-bootstrap/Alert";
 import { Link } from "react-router-dom";
 
 class Login extends Component {
+  componentDidMount() {
+    this.props.dispatch(change_input("currentUser", {}));
+  }
   handleSubmit(e) {
     e.preventDefault();
     setTimeout(() => {

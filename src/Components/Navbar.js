@@ -50,26 +50,27 @@ class ownNavbar extends React.Component {
                 </NavLink>
               </Nav.Link>
             </Nav>
-            <Form inline>
-              <NavLink to="/search">
-                <FormControl
-                  placeholder="Search"
-                  className="mr-sm-2"
-                  type="text"
-                  value={this.props.searchWord}
-                  onChange={e => {
-                    this.props.dispatch(
-                      change_input("searchWord", e.target.value)
-                    );
-                  }}
-                />
-              </NavLink>
-              <NavLink to="/search">
-                <Button variant="outline-warning">Search</Button>
-              </NavLink>
-              <div style={{ marginLeft: "0.3rem" }} />
-              {this.props.isLoggedIn && (
-                <>
+            {this.props.isLoggedIn && (
+              <>
+                <Form inline>
+                  <NavLink to="/search">
+                    <FormControl
+                      placeholder="Search"
+                      className="mr-sm-2"
+                      type="text"
+                      value={this.props.searchWord}
+                      onChange={e => {
+                        this.props.dispatch(
+                          change_input("searchWord", e.target.value)
+                        );
+                      }}
+                    />
+                  </NavLink>
+                  <NavLink to="/search">
+                    <Button variant="outline-warning">Search</Button>
+                  </NavLink>
+                  <div style={{ marginLeft: "0.3rem" }} />
+
                   <NavLink to="/">
                     <Button
                       variant="outline-warning"
@@ -81,9 +82,9 @@ class ownNavbar extends React.Component {
                       Log Out
                     </Button>
                   </NavLink>
-                </>
-              )}
-            </Form>
+                </Form>
+              </>
+            )}
           </Navbar.Collapse>
         </Navbar>
       </>
