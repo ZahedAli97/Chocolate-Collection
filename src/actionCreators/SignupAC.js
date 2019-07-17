@@ -10,7 +10,13 @@ import {
   LOGIN_FORM,
   LOGIN_FORM_SUCCESS,
   LOGIN_FORM_FAILURE,
-  LOGOUT
+  LOGOUT,
+  GET_FOUR_BRANDS,
+  GET_FOUR_BRANDS_SUCCESS,
+  GET_FOUR_BRANDS_FAILURE,
+  GET_DATA,
+  GET_DATA_SUCCESS,
+  GET_DATA_FAILURE
 } from "../actionTypes/SignupAT";
 
 export function change_input(fieldName, fieldValue) {
@@ -58,4 +64,27 @@ export function submit_login_form_failure(error) {
 
 export function logout() {
   return { type: LOGOUT };
+}
+
+export function get_four_brands() {
+  return { type: GET_FOUR_BRANDS };
+}
+
+export function get_four_brands_success(brands) {
+  return { type: GET_FOUR_BRANDS_SUCCESS, brands };
+}
+export function get_four_brands_failure(error) {
+  return { type: GET_FOUR_BRANDS_FAILURE, error };
+}
+
+export function get_data() {
+  return { type: GET_DATA };
+}
+
+export function get_data_success(chocolates, types, brands, user) {
+  return { type: GET_DATA_SUCCESS, chocolates, types, brands, user };
+}
+
+export function get_data_failure(error) {
+  return { type: GET_DATA_FAILURE, error };
 }

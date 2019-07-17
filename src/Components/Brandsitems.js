@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
+import { get_data } from "../actionCreators/SignupAC";
 
 export default class Brandsitems extends Component {
   render() {
     return (
       <>
-        <div className="mb-4">
+        <div className="mb-4 ">
           <Card
             style={{ width: "25rem", flex: "initial" }}
             className="bg-white text-center text-warning shadow rounded"

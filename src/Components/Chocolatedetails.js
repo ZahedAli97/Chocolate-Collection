@@ -4,10 +4,19 @@ import { Link, Redirect } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
 import CardDeck from "react-bootstrap/CardDeck";
+import { get_data, set_error_msg } from "../actionCreators/SignupAC";
+import Spinner from "react-bootstrap/Spinner";
 
 class Chocolatedetails extends Component {
+  componentDidMount() {
+    if (this.props.chocolates[0] === undefined) {
+      this.props.dispatch(get_data());
+    }
+  }
   render() {
     if (!this.props.isLoggedIn) {
+      this.props.dispatch(set_error_msg("You Need to Log In First!"));
+
       return <Redirect to="/" />;
     }
     const [chocolate] = this.props.chocolates.filter(
@@ -20,7 +29,19 @@ class Chocolatedetails extends Component {
     return (
       <>
         {" "}
-        <br />
+        <br />{" "}
+        {this.props.isLoading && (
+          <Spinner
+            animation="border"
+            variant="warning"
+            style={{
+              width: "5rem",
+              height: "5rem",
+              marginLeft: "40rem",
+              marginTop: "10rem"
+            }}
+          />
+        )}
         <div className="container" style={{ paddingLeft: "20rem" }}>
           {chocolate !== undefined && (
             <>
@@ -70,6 +91,7 @@ class Chocolatedetails extends Component {
 
 function mapStateToProps(state) {
   return {
+    isLoading: state.isLoading,
     isLoggedIn: state.isLoggedIn,
     brands: state.brands,
     chocolates: state.chocolates

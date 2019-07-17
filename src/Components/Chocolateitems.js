@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
+import { get_data } from "../actionCreators/SignupAC";
 
 export default class Chocolateitems extends Component {
   render() {

@@ -6,10 +6,19 @@ import CardGroup from "react-bootstrap/CardGroup";
 import CardDeck from "react-bootstrap/CardDeck";
 import Container from "react-bootstrap/Container";
 import Spinner from "react-bootstrap/Spinner";
+import { get_data, set_error_msg } from "../actionCreators/SignupAC";
 
 class Brands extends Component {
+  componentDidMount() {
+    if (this.props.brands[0] === undefined) {
+      this.props.dispatch(get_data());
+    }
+  }
   render() {
+    //const isLoggedIn = localStorage.getItem("isLoggedIn");
+
     if (!this.props.isLoggedIn) {
+      this.props.dispatch(set_error_msg("You Need to Log In First!"));
       return <Redirect to="/" />;
     }
     return (

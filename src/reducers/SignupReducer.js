@@ -10,12 +10,18 @@ import {
   SET_ERROR_MESSAGE,
   LOGIN_FORM,
   LOGIN_FORM_SUCCESS,
-  LOGOUT
+  LOGOUT,
+  GET_FOUR_BRANDS,
+  GET_FOUR_BRANDS_SUCCESS,
+  GET_FOUR_BRANDS_FAILURE,
+  GET_DATA,
+  GET_DATA_SUCCESS,
+  GET_DATA_FAILURE
 } from "../actionTypes/SignupAT";
 
 const initialState = {
   isLoading: false,
-  isLoggedIn: false,
+  isLoggedIn: "true" === localStorage.getItem("isLoggedIn"),
   searchWord: "",
   loginEmail: "", //For log in
   loginPassword: "",
@@ -72,6 +78,31 @@ export default function SignupReducer(prevState = initialState, action) {
         draft.chocolates = action.chocolates;
         draft.types = action.types;
         draft.brands = action.brands;
+        break;
+      case GET_FOUR_BRANDS:
+        draft.isLoading = true;
+        break;
+      case GET_FOUR_BRANDS_SUCCESS:
+        draft.isLoading = false;
+        draft.brands = action.brands;
+        break;
+      case GET_FOUR_BRANDS_FAILURE:
+        console.log(action.error);
+        break;
+      case GET_DATA:
+        draft.isLoading = true;
+        //draft.currentUser = action.user;
+        break;
+      case GET_DATA_SUCCESS:
+        draft.isLoading = false;
+        draft.chocolates = action.chocolates;
+        draft.types = action.types;
+        draft.brands = action.brands;
+        const [user] = action.user;
+        draft.currentUser = user;
+        break;
+      case GET_DATA_FAILURE:
+        console.log(action.error);
         break;
       case LOGOUT:
         draft.isLoading = true;

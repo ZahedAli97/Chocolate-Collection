@@ -4,7 +4,8 @@ import {
   change_input,
   submit_form,
   get_users,
-  set_error_msg
+  set_error_msg,
+  get_four_brands
 } from "../actionCreators/SignupAC";
 import Card from "react-bootstrap/Card";
 import Container from "react-bootstrap/Container";
@@ -12,11 +13,12 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 class Signup extends React.Component {
   //   const [error_msg, setError_msg] = useState("");
   componentDidMount() {
+    // this.props.dispatch(get_four_brands());
     this.props.dispatch(get_users());
   }
 
@@ -71,8 +73,11 @@ class Signup extends React.Component {
     return this.props.dispatch(submit_form(this.props));
   }
   render() {
-    console.log("//", this.props.currentUser);
-    // console.log(this.props.currentUser.firstName);
+    if (this.props.isLoggedIn) {
+      //Even though there is no route....this is just a security measure.
+
+      return <Redirect to="/" />;
+    }
     return (
       <>
         <br />
@@ -243,6 +248,7 @@ class Signup extends React.Component {
 }
 function mapStateToProps(state) {
   return {
+    isLoggedIn: state.isLoggedIn,
     currentUser: state.currentUser,
     isLoading: state.isLoading,
     error_msg: state.errorMessage,

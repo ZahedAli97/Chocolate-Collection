@@ -39,17 +39,24 @@ class Login extends Component {
       return false;
     } else {
       this.props.dispatch(set_error_msg(""));
+      localStorage.setItem("isLoggedIn", true);
+      localStorage.setItem("userId", user.id);
       return this.props.dispatch(submit_login_form(user));
     }
     // }, 350);
   }
   render() {
+    if (this.props.errorMessage !== "") {
+      setTimeout(() => {
+        this.props.dispatch(set_error_msg(""));
+      }, 5000);
+    }
     return (
       <>
         <Card
           className="shadow"
           bg="white"
-          style={{ width: "25rem", height: "25rem", marginRight: "5rem" }}
+          style={{ width: "25rem", height: "26rem", marginRight: "5rem" }}
         >
           <Card.Header
             className="text-center text-warning"
@@ -109,6 +116,9 @@ class Login extends Component {
               <p>
                 New User? - <Link to="/signup">Sign Up</Link>
               </p>
+              {this.props.error_msg === "You Need to Log In First!" && (
+                <Alert variant="danger">{this.props.error_msg}</Alert>
+              )}
             </div>
           </Container>
         </Card>
