@@ -9,10 +9,14 @@ import {
 import { signupSaga, getUsersSaga, loginUserSaga, getDataSaga } from "./Signup";
 
 export function* signupSagaWatcher() {
-  yield all([
-    takeLatest(SUBMIT_FORM, signupSaga),
-    takeLatest(GET_USERS, getUsersSaga),
-    takeLatest(LOGIN_FORM, loginUserSaga),
-    takeLatest(GET_DATA, getDataSaga)
-  ]);
+  try {
+    yield all([
+      takeLatest(SUBMIT_FORM, signupSaga),
+      takeLatest(GET_USERS, getUsersSaga),
+      takeLatest(LOGIN_FORM, loginUserSaga),
+      takeLatest(GET_DATA, getDataSaga)
+    ]);
+  } catch (err) {
+    console.log(err);
+  }
 }

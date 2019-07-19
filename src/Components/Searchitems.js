@@ -8,6 +8,9 @@ import CardDeck from "react-bootstrap/CardDeck";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import { get_data, set_error_msg } from "../actionCreators/SignupAC";
+import Alert from "react-bootstrap/Alert";
+import Button from "react-bootstrap/Button";
+import Accordion from "react-bootstrap/Accordion";
 
 class Searchitems extends Component {
   componentDidMount() {
@@ -17,16 +20,17 @@ class Searchitems extends Component {
   }
   render() {
     if (!this.props.isLoggedIn) {
-      //Even though there is no route....this is just a security measure.
+      //Even though this Component is not present when user is not Logged In....this is just a security measure.
       this.props.dispatch(set_error_msg("You Need to Log In First!"));
 
       return <Redirect to="/" />;
     }
-    // const searchWordLength = this.props.searchWord.length;
+
+    //--Filter all the Chocolates that include the Search Word.
     const chocolates = this.props.chocolates.filter(chocolate => {
       return chocolate.name.toLowerCase().includes(this.props.searchWord);
-      //   return chocolate.name.slice(0, searchWordLength) == this.props.searchWord;
     });
+    //--Filter all the Brands that include the Search Word.
     const brands = this.props.brands.filter(brand =>
       brand.name.toLowerCase().includes(this.props.searchWord)
     );
@@ -43,17 +47,58 @@ class Searchitems extends Component {
           </Toast>
         </div>
         <br />
-        {this.props.isLoading && (
-          <Spinner
-            animation="border"
-            variant="warning"
-            style={{
-              width: "5rem",
-              height: "5rem",
-              marginLeft: "40rem",
-              marginTop: "10rem"
-            }}
-          />
+        {/* Handling Server/DB access failure. */}
+
+        {this.props.isLoggedIn && (
+          <>
+            {this.props.failingError !== "" && (
+              <>
+                {console.log("Hi")}
+                <Accordion
+                  className=" rounded"
+                  style={{
+                    width: "40rem",
+                    height: "10rem",
+                    marginLeft: "24rem",
+                    marginTop: "6rem"
+                  }}
+                >
+                  <Alert variant="danger" className="shadow-sm rounded">
+                    <Alert.Heading>
+                      Oh Snap! Looks like there was an Error!
+                    </Alert.Heading>
+                    <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                      <Button variant="outline-danger">More Info</Button>
+                    </Accordion.Toggle>
+                    <Accordion.Collapse eventKey="0">
+                      <Card.Body>
+                        <hr />
+                        The App Says -{this.props.failingError}
+                      </Card.Body>
+                    </Accordion.Collapse>
+                    {/* <p>The App Says - {this.props.failingError}</p> */}
+                  </Alert>
+                </Accordion>
+              </>
+            )}
+          </>
+        )}
+        {/* If user reloads the page getData() again, and show Spinner until the Data is Loaded in State. */}
+        {this.props.failingError === "" && (
+          <>
+            {this.props.isLoading && (
+              <Spinner
+                animation="border"
+                variant="warning"
+                style={{
+                  width: "5rem",
+                  height: "5rem",
+                  marginLeft: "40rem",
+                  marginTop: "10rem"
+                }}
+              />
+            )}
+          </>
         )}
         {!this.props.isLoading && (
           <div>
@@ -62,7 +107,7 @@ class Searchitems extends Component {
               className="bg-warning text-white text-center shadow"
             >
               <Card.Body style={{ fontSize: "22px" }}>CHOCOLATES</Card.Body>
-
+              {/* If there are no filtered matches. */}
               {chocolates[0] === undefined && (
                 <Card.Footer>No Matches</Card.Footer>
               )}
@@ -80,6 +125,8 @@ class Searchitems extends Component {
               className="bg-warning text-white text-center shadow"
             >
               <Card.Body style={{ fontSize: "22px" }}>BRANDS</Card.Body>
+              {/* If there are no filtered matches. */}
+
               {brands[0] === undefined && <Card.Footer>No Matches</Card.Footer>}
             </Card>
             <br />
@@ -100,7 +147,8 @@ function mapStateToProps(state) {
     isLoggedIn: state.isLoggedIn,
     brands: state.brands,
     chocolates: state.chocolates,
-    searchWord: state.searchWord
+    searchWord: state.searchWord,
+    failingError: state.failingError
   };
 }
 

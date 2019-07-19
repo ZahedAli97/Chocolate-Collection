@@ -4,7 +4,7 @@ import Home from "./Components/Home";
 import Navbar from "./Components/Navbar";
 import Reusable from "./Components/Reusable";
 import Signup from "./Components/Signup";
-import { Route } from "react-router-dom";
+import { Route, Switch } from "react-router-dom";
 import Login from "./Components/Login";
 import Brands from "./Components/Brands";
 import Brandsdetail from "./Components/Brandsdetail";
@@ -12,27 +12,31 @@ import Chocolates from "./Components/Chocolates";
 import Chocolatedetails from "./Components/Chocolatedetails";
 import Searchitems from "./Components/Searchitems";
 import { Navbar as BootstrapNavbar } from "react-bootstrap";
+import Pagenotfound from "./Components/Pagenotfound";
 
 function App() {
   return (
     <>
       <Navbar />
       {/* Header */}
-      <Route exact path="/" component={Home} />
-      <Route exact path="/brands" component={Brands} />
-      <Route
-        exact
-        path="/brandsdetail/:id"
-        render={props => <Brandsdetail {...props} />}
-      />
-      <Route exact path="/chocolates" component={Chocolates} />
-      <Route
-        exact
-        path="/chocolatedetail/:id"
-        render={props => <Chocolatedetails {...props} />}
-      />
-      <Route exact path="/search" component={Searchitems} />
-      <Route path="/signup" component={Signup} />
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/brands" component={Brands} />
+        <Route
+          exact
+          path="/brandsdetail/:id"
+          render={props => <Brandsdetail {...props} />}
+        />
+        <Route exact path="/chocolates" component={Chocolates} />
+        <Route
+          exact
+          path="/chocolatedetail/:id"
+          render={props => <Chocolatedetails {...props} />}
+        />
+        <Route exact path="/search" component={Searchitems} />
+        <Route path="/signup" component={Signup} exact />
+        <Route component={Pagenotfound} />
+      </Switch>
       <br />
       <br />
       <br />
@@ -45,6 +49,7 @@ function App() {
             borderRadius: "5px"
           }}
         /> */}
+        {/* Footer */}
         <BootstrapNavbar
           fixed="bottom"
           bg="white"

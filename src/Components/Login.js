@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 
 class Login extends Component {
   componentDidMount() {
+    //--After Sign Up when the user is redirected to Login Page, Clear currentUser and Ask him/her to Login Again.
     this.props.dispatch(change_input("currentUser", {}));
   }
   handleSubmit(e) {
@@ -23,11 +24,9 @@ class Login extends Component {
       this.props.dispatch(set_error_msg(""));
     }, 3000);
 
-    // setTimeout(() => {
     const [user] = this.props.users.filter(
       user => user.email === this.props.email
     );
-    // console.log(user);
     if (user === undefined) {
       this.props.dispatch(
         set_error_msg("Email does not exist, Please Sign Up.")
@@ -39,15 +38,15 @@ class Login extends Component {
       return false;
     } else {
       this.props.dispatch(set_error_msg(""));
-      localStorage.setItem("isLoggedIn", true);
-      localStorage.setItem("userId", user.id);
+      localStorage.setItem("isLoggedIn", true); //--Store isLoggedIn in local Storage, So that when page is reloaded we can reload the state.
+      localStorage.setItem("userId", user.id); //--Store userId to get user data.
       return this.props.dispatch(submit_login_form(user));
     }
-    // }, 350);
   }
   render() {
     if (this.props.errorMessage !== "") {
       setTimeout(() => {
+        //--To tiresome to Remove Error using onChange.
         this.props.dispatch(set_error_msg(""));
       }, 5000);
     }

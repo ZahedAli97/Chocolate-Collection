@@ -33,6 +33,7 @@ export function* signupSaga(action) {
 
 export function* getUsersSaga() {
   try {
+    // Before SignUp and LogIn this will be called.
     const userResponse = yield fetch("http://localhost:4000/users");
     const users = yield userResponse.json();
     yield put(get_users_success(users));
@@ -43,6 +44,7 @@ export function* getUsersSaga() {
 
 export function* loginUserSaga() {
   try {
+    // This will only be called if the user is Correct user.
     const chocolateResponse = yield fetch("http://localhost:4000/chocolates");
     const chocolates = yield chocolateResponse.json();
 
@@ -60,6 +62,7 @@ export function* loginUserSaga() {
 
 export function* getDataSaga() {
   try {
+    // This will be called from all components upon page reload
     const chocolateResponse = yield fetch("http://localhost:4000/chocolates");
     const chocolates = yield chocolateResponse.json();
 

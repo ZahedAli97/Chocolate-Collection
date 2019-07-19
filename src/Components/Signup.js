@@ -14,6 +14,9 @@ import Button from "react-bootstrap/Button";
 import Spinner from "react-bootstrap/Spinner";
 import Alert from "react-bootstrap/Alert";
 import { Link, Redirect } from "react-router-dom";
+import { updateExpression } from "@babel/types";
+
+import Accordion from "react-bootstrap/Accordion";
 
 class Signup extends React.Component {
   //   const [error_msg, setError_msg] = useState("");
@@ -69,7 +72,7 @@ class Signup extends React.Component {
       this.props.dispatch(set_error_msg("Wrong Confirm Passord"));
       return false;
     }
-    // this.props.history.push("/");
+
     return this.props.dispatch(submit_form(this.props));
   }
   render() {
@@ -81,164 +84,221 @@ class Signup extends React.Component {
     return (
       <>
         <br />
-
-        {this.props.currentUser.firstName === undefined && (
+        {/* Handling Server/DB access failure. */}
+        {this.props.failingError !== "" && (
           <>
-            <Card
-              className="shadow-lg"
-              bg="white"
-              //text="white"
-              style={{ width: "25rem", height: "37rem", marginLeft: "30rem" }}
+            {console.log("Hi")}
+            <Accordion
+              className=" rounded"
+              style={{
+                width: "40rem",
+                height: "10rem",
+                marginLeft: "22rem",
+                marginTop: "7rem"
+              }}
             >
-              <Card.Header
-                className="text-center text-warning"
-                style={{ fontSize: "1.3rem" }}
-              >
-                SIGN UP
-              </Card.Header>
-              <Container>
-                <Form>
-                  <form onSubmit={e => this.handleSubmit(e)} noValidate>
-                    <Form.Group controlId="formGroupFirstName">
-                      <Form.Label>First Name:</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter First Name..."
-                        value={this.props.firstName}
-                        onChange={e => {
-                          this.props.dispatch(
-                            change_input("firstName", e.target.value)
-                          );
-                        }}
-                      />
-                      {this.props.error_msg === "First Name is Required" && (
-                        <Alert variant="danger">{this.props.error_msg}</Alert>
-                      )}
-                    </Form.Group>
-
-                    <Form.Group controlId="formGroupLastName">
-                      <Form.Label>Last Name:</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Enter Last Name..."
-                        value={this.props.lastName}
-                        onChange={e => {
-                          this.props.dispatch(
-                            change_input("lastName", e.target.value)
-                          );
-                        }}
-                      />
-                      {this.props.error_msg === "Last Name is Required" && (
-                        <Alert variant="danger">{this.props.error_msg}</Alert>
-                      )}
-                    </Form.Group>
-
-                    <Form.Group controlId="formGroupEmail">
-                      <Form.Label>Email:</Form.Label>
-                      <Form.Control
-                        type="email"
-                        placeholder="Enter Email..."
-                        value={this.props.email}
-                        onChange={e => {
-                          this.props.dispatch(
-                            change_input("email", e.target.value)
-                          );
-                        }}
-                      />
-                      {this.props.error_msg ===
-                        "Email already exists, Please Log In." && (
-                        <Alert variant="danger">{this.props.error_msg}</Alert>
-                      )}
-                      {this.props.error_msg === "Not a Valid Email" && (
-                        <Alert variant="danger">{this.props.error_msg}</Alert>
-                      )}
-                    </Form.Group>
-
-                    <Form.Group controlId="formGroupPassword">
-                      <Form.Label>Password: </Form.Label>
-                      <Form.Control
-                        type="password"
-                        placeholder="Enter Password..."
-                        value={this.props.password}
-                        onChange={e => {
-                          this.props.dispatch(
-                            change_input("password", e.target.value)
-                          );
-                        }}
-                      />
-                      {this.props.error_msg === "Password is Required" && (
-                        <Alert variant="danger">{this.props.error_msg}</Alert>
-                      )}
-                    </Form.Group>
-
-                    <Form.Group controlId="formGroupConfirmPassword">
-                      <Form.Label>Confirm Password:</Form.Label>
-                      <Form.Control
-                        type="password"
-                        placeholder="Enter Confirm Password..."
-                        value={this.props.confirmpassword}
-                        onChange={e => {
-                          this.props.dispatch(
-                            change_input("confirmpassword", e.target.value)
-                          );
-                        }}
-                      />
-                      {this.props.error_msg === "Wrong Confirm Passord" && (
-                        <Alert variant="danger">{this.props.error_msg}</Alert>
-                      )}
-                    </Form.Group>
-
-                    <div className="text-center">
-                      {this.props.isLoading && (
-                        <Spinner
-                          animation="border"
-                          variant="warning"
-                          style={{
-                            width: "3rem",
-                            height: "3rem"
-                          }}
-                        />
-                      )}
-                      {!this.props.isLoading && (
-                        <Button variant="warning" type="submit">
-                          Sign Up
-                        </Button>
-                      )}{" "}
-                    </div>
-                  </form>
-                </Form>{" "}
-              </Container>
-            </Card>
+              <Alert variant="danger" className="shadow-sm rounded">
+                <Alert.Heading>
+                  Oh Snap! Looks like there was an Error!
+                </Alert.Heading>
+                <Accordion.Toggle as={Button} variant="link" eventKey="0">
+                  <Button variant="outline-danger">More Info</Button>
+                </Accordion.Toggle>
+                <Accordion.Collapse eventKey="0">
+                  <Card.Body>
+                    <hr />
+                    The App Says -{this.props.failingError}
+                  </Card.Body>
+                </Accordion.Collapse>
+                {/* <p>The App Says - {this.props.failingError}</p> */}
+              </Alert>
+            </Accordion>
           </>
         )}
-        {this.props.currentUser.firstName !== undefined && (
+
+        {/* //--If there was No Successfull Signup. Then Display Sign Up Card. */}
+        {this.props.failingError === "" && (
           <>
-            {" "}
-            <Alert
-              show={true}
-              style={{
-                width: "30rem",
-                height: "12rem",
-                marginLeft: "30rem"
-              }}
-              className="shadow rounded"
-            >
-              <Alert.Heading>
-                {this.props.currentUser.firstName}{" "}
-                {this.props.currentUser.lastName}
-              </Alert.Heading>{" "}
-              <p />
-              You have been Successfully Signed Up!
-              <p />{" "}
-              <hr
-                style={{ border: "0.05rem solid #ffbb33", borderRadius: "5px" }}
-              />
-              <div className="d-flex justify-content-end">
-                <Link to="/">
-                  <Button variant="outline-warning">Log In</Button>
-                </Link>
-              </div>
-            </Alert>
+            {this.props.currentUser.firstName === undefined && (
+              <>
+                <Card
+                  className="shadow-lg"
+                  bg="white"
+                  //text="white"
+                  style={{
+                    width: "25rem",
+                    height: "37rem",
+                    marginLeft: "30rem"
+                  }}
+                >
+                  <Card.Header
+                    className="text-center text-warning"
+                    style={{ fontSize: "1.3rem" }}
+                  >
+                    SIGN UP
+                  </Card.Header>
+                  <Container>
+                    <Form>
+                      <form onSubmit={e => this.handleSubmit(e)} noValidate>
+                        <Form.Group controlId="formGroupFirstName">
+                          <Form.Label>First Name:</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter First Name..."
+                            value={this.props.firstName}
+                            onChange={e => {
+                              this.props.dispatch(
+                                change_input("firstName", e.target.value)
+                              );
+                            }}
+                          />
+                          {this.props.error_msg ===
+                            "First Name is Required" && (
+                            <Alert variant="danger">
+                              {this.props.error_msg}
+                            </Alert>
+                          )}
+                        </Form.Group>
+
+                        <Form.Group controlId="formGroupLastName">
+                          <Form.Label>Last Name:</Form.Label>
+                          <Form.Control
+                            type="text"
+                            placeholder="Enter Last Name..."
+                            value={this.props.lastName}
+                            onChange={e => {
+                              this.props.dispatch(
+                                change_input("lastName", e.target.value)
+                              );
+                            }}
+                          />
+                          {this.props.error_msg === "Last Name is Required" && (
+                            <Alert variant="danger">
+                              {this.props.error_msg}
+                            </Alert>
+                          )}
+                        </Form.Group>
+
+                        <Form.Group controlId="formGroupEmail">
+                          <Form.Label>Email:</Form.Label>
+                          <Form.Control
+                            type="email"
+                            placeholder="Enter Email..."
+                            value={this.props.email}
+                            onChange={e => {
+                              this.props.dispatch(
+                                change_input("email", e.target.value)
+                              );
+                            }}
+                          />
+                          {this.props.error_msg ===
+                            "Email already exists, Please Log In." && (
+                            <Alert variant="danger">
+                              {this.props.error_msg}
+                            </Alert>
+                          )}
+                          {this.props.error_msg === "Not a Valid Email" && (
+                            <Alert variant="danger">
+                              {this.props.error_msg}
+                            </Alert>
+                          )}
+                        </Form.Group>
+
+                        <Form.Group controlId="formGroupPassword">
+                          <Form.Label>Password: </Form.Label>
+                          <Form.Control
+                            type="password"
+                            placeholder="Enter Password..."
+                            value={this.props.password}
+                            onChange={e => {
+                              this.props.dispatch(
+                                change_input("password", e.target.value)
+                              );
+                            }}
+                          />
+                          {this.props.error_msg === "Password is Required" && (
+                            <Alert variant="danger">
+                              {this.props.error_msg}
+                            </Alert>
+                          )}
+                        </Form.Group>
+
+                        <Form.Group controlId="formGroupConfirmPassword">
+                          <Form.Label>Confirm Password:</Form.Label>
+                          <Form.Control
+                            type="password"
+                            placeholder="Enter Confirm Password..."
+                            value={this.props.confirmpassword}
+                            onChange={e => {
+                              this.props.dispatch(
+                                change_input("confirmpassword", e.target.value)
+                              );
+                            }}
+                          />
+                          {this.props.error_msg === "Wrong Confirm Passord" && (
+                            <Alert variant="danger">
+                              {this.props.error_msg}
+                            </Alert>
+                          )}
+                        </Form.Group>
+
+                        <div className="text-center">
+                          {this.props.isLoading && (
+                            <Spinner
+                              animation="border"
+                              variant="warning"
+                              style={{
+                                width: "3rem",
+                                height: "3rem"
+                              }}
+                            />
+                          )}
+                          {!this.props.isLoading && (
+                            <Button variant="warning" type="submit">
+                              Sign Up
+                            </Button>
+                          )}{" "}
+                        </div>
+                      </form>
+                    </Form>{" "}
+                  </Container>
+                </Card>
+              </>
+            )}
+            {/* //-- When User has Successfully Signed update the current user to show Users */}
+            {this.props.currentUser.firstName !== undefined && (
+              <>
+                {" "}
+                <Alert
+                  show={true}
+                  style={{
+                    width: "30rem",
+                    height: "12rem",
+                    marginLeft: "30rem"
+                  }}
+                  className="shadow rounded"
+                >
+                  <Alert.Heading>
+                    {this.props.currentUser.firstName}{" "}
+                    {this.props.currentUser.lastName}
+                  </Alert.Heading>{" "}
+                  <p />
+                  You have been Successfully Signed Up!
+                  <p />{" "}
+                  <hr
+                    style={{
+                      border: "0.05rem solid #ffbb33",
+                      borderRadius: "5px"
+                    }}
+                  />
+                  <div className="d-flex justify-content-end">
+                    <Link to="/">
+                      <Button variant="outline-warning">Log In</Button>
+                    </Link>
+                  </div>
+                </Alert>
+              </>
+            )}
           </>
         )}
         <br />
@@ -258,7 +318,8 @@ function mapStateToProps(state) {
     email: state.email,
     password: state.password,
     confirmpassword: state.confirmpassword,
-    users: state.users
+    users: state.users,
+    failingError: state.failingError
   };
 }
 

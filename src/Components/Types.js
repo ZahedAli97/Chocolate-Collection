@@ -1,3 +1,5 @@
+//--Types of Chocolates are only to display. -(They have no Functionality)
+
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Card from "react-bootstrap/Card";

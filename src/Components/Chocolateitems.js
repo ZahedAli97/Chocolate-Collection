@@ -1,3 +1,5 @@
+// This is a Child Component for <Chocolates /> Component. And only Displays props that the Brand Component Sends.
+
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Card from "react-bootstrap/Card";

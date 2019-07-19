@@ -1,3 +1,5 @@
+// This reducer is for the Whole App, The name for file was decided at the start of Project.
+
 import produce from "immer";
 import {
   CHANGE_INPUT,
@@ -35,7 +37,8 @@ const initialState = {
   users: [],
   chocolates: [],
   types: [],
-  brands: []
+  brands: [],
+  failingError: ""
 };
 export default function SignupReducer(prevState = initialState, action) {
   return produce(prevState, draft => {
@@ -50,31 +53,42 @@ export default function SignupReducer(prevState = initialState, action) {
 
         break;
       case SUBMIT_FORM:
+        draft.failingError = "";
+        draft.isLoading = true;
         console.log(action.payload);
         break;
       case SUBMIT_FORM_SUCCESS:
+        draft.isLoading = false;
         draft.currentUser = action.user;
+        draft.failingError = "";
         break;
       case SUBMIT_FORM_FAILURE:
-        console.log(action.error);
+        draft.failingError = String(action.error);
         break;
       case GET_USERS:
+        draft.failingError = "";
+
         draft.isLoading = true;
+        draft.failingError = "";
         break;
       case GET_USERS_SUCCESS:
         draft.isLoading = false;
         draft.users = action.users;
+        draft.failingError = "";
         break;
       case GET_USERS_FAILURE:
-        console.log(action.error);
+        draft.failingError = String(action.error);
+
         break;
       case LOGIN_FORM:
         draft.isLoading = true;
         draft.isLoggedIn = true;
         draft.currentUser = action.user;
+        draft.failingError = "";
         break;
       case LOGIN_FORM_SUCCESS:
         draft.isLoading = false;
+        draft.failingError = "";
         draft.chocolates = action.chocolates;
         draft.types = action.types;
         draft.brands = action.brands;
@@ -91,10 +105,12 @@ export default function SignupReducer(prevState = initialState, action) {
         break;
       case GET_DATA:
         draft.isLoading = true;
+        draft.failingError = "";
         //draft.currentUser = action.user;
         break;
       case GET_DATA_SUCCESS:
         draft.isLoading = false;
+        draft.failingError = "";
         draft.chocolates = action.chocolates;
         draft.types = action.types;
         draft.brands = action.brands;
@@ -102,7 +118,8 @@ export default function SignupReducer(prevState = initialState, action) {
         draft.currentUser = user;
         break;
       case GET_DATA_FAILURE:
-        console.log(action.error);
+        draft.failingError = String(action.error);
+
         break;
       case LOGOUT:
         draft.isLoading = true;
@@ -121,6 +138,7 @@ export default function SignupReducer(prevState = initialState, action) {
         draft.chocolates = [];
         draft.types = [];
         draft.brands = [];
+        draft.failingError = "";
         break;
     }
   });

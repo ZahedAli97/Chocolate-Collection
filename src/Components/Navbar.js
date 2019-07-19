@@ -80,6 +80,8 @@ class ownNavbar extends React.Component {
                       }}
                     />
                   </NavLink>
+                  {/* --------------------------------------------------------------------- */}
+                  {/* //-- Just trying to chnage button into input field onMouseOver. */}
                   {/* <NavLink to="/search">
                     <div
                       style={{
@@ -119,6 +121,7 @@ class ownNavbar extends React.Component {
                       />
                     </div> 
                       </NavLink>*/}
+                  {/* -------------------------------------------------------------------- */}
                   <div style={{ marginLeft: "0.3rem" }} />
 
                   <NavLink to="/">
